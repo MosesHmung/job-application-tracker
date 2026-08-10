@@ -1,0 +1,384 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f5f5f5;
+    color: #222;
+}
+.container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 40px auto;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+header h1 {
+    margin-bottom: 8px;
+}
+
+.stats {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.card {
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.card h2 {
+    font-size: 2rem;
+    color: #555;
+}
+
+
+.toolbar {
+    margin-bottom: 25px;
+}
+
+button {
+    background: #0077ff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #005fd1;
+}
+
+.application-section h2 {
+    margin-bottom: 16px;
+}
+
+.application-container {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #f8f9fb;
+    padding: 20px;
+
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#applicationList {
+    margin-top: 20px;
+}
+
+.application-table {
+    width: 100%;
+    border-collapse: separate;
+}
+
+.application-table th{
+    padding: 8px 12px;
+    text-align: left;
+    background: transparent;
+    color: #555;
+    font-size: 13px;
+}
+
+.application-table td {
+    background: white;
+    padding: 8px 12px;
+    border-bottom: none;
+}
+
+.application-table td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.application-table td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.application-table tr:hover {
+    background: #fafcff;
+}
+
+.table-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.table-actions button {
+    padding: 7px 12px;
+    font-size: 14px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.status-watching {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.status-applied {
+    background: #e8f3ff;
+    color: #0077ff;
+}
+
+.status-phone {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.status-interviewing {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.status-offer {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.status-withdrawn {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,0.4);
+
+    justify-content: center;
+    align-items: center;
+}
+
+.modal:not(.hidden) {
+    display: flex;
+}
+
+.modal-content {
+
+    background: white;
+
+    width: 450px;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+
+    padding: 10px;
+
+    font-size: 15px;
+}
+
+.modal-buttons {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 10px;
+}
+
+.details-row td {
+    background: #f8f9fb;
+    padding: 0 12px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.application-details {
+    background: white;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #444;
+}
+
+.application-details p {
+    margin: 6px 0;
+}
+
+.applications-layout {
+    display: grid;
+    grid-template-columns: 1fr 48px;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.applications-layout.calendar-open {
+    grid-template-columns: 1fr 460px;
+}
+
+.applications-layout.calendar-open .calendar-toggle {
+    display: none;
+}
+
+.calendar-toggle {
+    min-height: 350px;
+    border-radius: 12px;
+    padding: 0;
+    font-size: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-panel {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+    min-height: 350px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.calendar-header button {
+    padding: 4px 10px;
+    font-size: 18px;
+}
+
+.week-calendar {
+    margin-top: 12px;
+}
+
+.week-days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #d1d1d1;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.week-days-header span {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 4px;
+    border-right: 1px solid white;
+}
+
+.week-days-header span:last-child {
+    border-right: none;
+}
+
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid #ddd;
+    border-top: none;
+    min-height: 180px;
+}
+
+.week-day {
+    background: #f8f9fb;
+    border-right: 1px solid #ddd;
+    padding: 6px;
+    font-size: 12px;
+    min-height: 180px;
+}
+
+.week-day:last-child {
+    border-right: none;
+}
+
+.week-date {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.week-event-count {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.application-count {
+    background: #0077ff;
+    color: white;
+}
+
+.interview-count {
+    background: #facc15;
+    color: #222;
+}
+
+.offer-count {
+    background: #16a34a;
+    color: white;
+}
+
+.empty-day {
+    color: #bbb;
+}
+
+.expand-calendar-button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.expand-calendar-button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    font-size: 14px;
+}
