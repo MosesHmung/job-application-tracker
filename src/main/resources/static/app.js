@@ -1,7 +1,18 @@
+// ----------------------------------------
+// GLOBAL STATE
+// ----------------------------------------
+
 let applicationToDelete = null;
 let editingApplicationId = null;
+
+// Keep one copy of the applications in memory so the table and calendar
+// can use the same data instead of making separate API calls.
 let cachedApplications = [];
 let currentWeekStart = getStartOfWeek(new Date());
+
+// ----------------------------------------
+// PAGE LOAD
+// ----------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
     loadApplications();
@@ -9,10 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// ----------------------------------------
+// APPLICATION TABLE
+// ----------------------------------------
+
 async function loadApplications() {
     const response = await fetch("/api/applications");
     const applications = await response.json();
 
+    // Save the latest backend data so the calendar stays in sync with the table.
     cachedApplications = applications;
     renderWeeklyEvents();
 
@@ -77,39 +93,9 @@ function toggleDetails(id) {
     }
 }
 
-async function loadStats() {
-
-    const response = await fetch("/api/stats");
-    const stats = await response.json();
-
-    document.getElementById("applied").textContent = stats.applied;
-    document.getElementById("interviews").textContent = stats.interviewing;
-    document.getElementById("offers").textContent = stats.offers;
-    document.getElementById("watching").textContent = stats.watching;
-
-}
-
-function formatSalary(min, max) {
-    if (!min && !max) {
-        return "";
-    }
-
-    if (min && max) {
-        return `$${min} - $${max}`;
-    }
-
-    if (min) {
-        return `$${min}+`;
-    }
-
-    return `Up to $${max}`;
-}
-
-function formatStatus(status) {
-    return status
-        .toLowerCase()
-        .replaceAll("_", " ");
-}
+// ----------------------------------------
+// APPLICATIONS ACTIONS
+// ----------------------------------------
 
 async function saveApplication() {
 
@@ -121,7 +107,8 @@ async function saveApplication() {
     const salaryMax = Number(document.getElementById("salaryMaxInput").value);
     const notes = document.getElementById("notesInput").value;
 
-    // Create the application
+    // The same modal handles both adding and editing.
+    // If editingApplicationId is set, update the existing row instead of creating a new one.
     const url = editingApplicationId === null
         ? "/api/applications"
         : `/api/applications/${editingApplicationId}`;
@@ -154,36 +141,33 @@ async function saveApplication() {
     loadStats();
 }
 
-function openModal() {
+async function editApplication(id) {
 
-    if (editingApplicationId === null) {
-        clearForm();
-    }
+    console.log("Edit clicked:", id);
+    const response = await fetch(`/api/applications/${id}`);
+    const application = await response.json();
 
-    document.getElementById("applicationModal")
-        .classList.remove("hidden");
+    // This tells saveApplication() to use PUT instead of POST.
+    editingApplicationId = id;
+
+    document.getElementById("modalTitle").textContent = "Edit Application";
+    document.getElementById("companyInput").value = application.companyName;
+    document.getElementById("jobTitleInput").value = application.jobTitle;
+    document.getElementById("statusInput").value = application.status;
+    document.getElementById("dateInput").value = application.dateApplied ?? "";
+    document.getElementById("salaryMinInput").value = application.salaryMin ?? "";
+    document.getElementById("salaryMaxInput").value = application.salaryMax ?? "";
+    document.getElementById("notesInput").value = application.notes ?? "";
+
+    openModal();
 }
-
-function closeModal() {
-
-    document.getElementById("applicationModal")
-        .classList.add("hidden");
-
-    clearForm();
-}
-
 
 function deleteApplication(id, title) {
 
+    // Store the id here so the confirm button knows what to delete.
     applicationToDelete = id;
     document.getElementById("deleteMessage").textContent = `Are you sure you want to delete "${title}"?`;
     document.getElementById("deleteModal").classList.remove("hidden");
-}
-
-function closeDeleteModal() {
-
-    applicationToDelete = null;
-    document.getElementById("deleteModal").classList.add("hidden");
 }
 
 async function confirmDelete() {
@@ -204,29 +188,41 @@ async function confirmDelete() {
 
     closeDeleteModal();
 
+    // Refresh both views since deletion affects table, stats, and calendar.
     loadApplications();
     loadStats();
 }
 
-async function editApplication(id) {
+// ----------------------------------------
+// MODALS
+// ----------------------------------------
 
-    console.log("Edit clicked:", id);
-    const response = await fetch(`/api/applications/${id}`);
-    const application = await response.json();
+function openModal() {
 
-    editingApplicationId = id;
+    // Only clear form when adding to prevent sticky previous application
+    // Edit mode fills the form first then opens the modal.
+    if (editingApplicationId === null) {
+        clearForm();
+    }
 
-    document.getElementById("modalTitle").textContent = "Edit Application";
-    document.getElementById("companyInput").value = application.companyName;
-    document.getElementById("jobTitleInput").value = application.jobTitle;
-    document.getElementById("statusInput").value = application.status;
-    document.getElementById("dateInput").value = application.dateApplied ?? "";
-    document.getElementById("salaryMinInput").value = application.salaryMin ?? "";
-    document.getElementById("salaryMaxInput").value = application.salaryMax ?? "";
-    document.getElementById("notesInput").value = application.notes ?? "";
-
-    openModal();
+    document.getElementById("applicationModal")
+        .classList.remove("hidden");
 }
+
+function closeModal() {
+
+    document.getElementById("applicationModal")
+        .classList.add("hidden");
+
+    clearForm();
+}
+
+function closeDeleteModal() {
+
+    applicationToDelete = null;
+    document.getElementById("deleteModal").classList.add("hidden");
+}
+
 
 function clearForm() {
 
@@ -238,11 +234,31 @@ function clearForm() {
     document.getElementById("salaryMaxInput").value = "";
     document.getElementById("notesInput").value = "";
 
+    // Reset back to add mode after closing/editing
     editingApplicationId = null;
 
     document.getElementById("modalTitle").textContent =
         "Add Application";
 }
+
+// ----------------------------------------
+// DASHBOARD STATS
+// ----------------------------------------
+
+async function loadStats() {
+
+    const response = await fetch("/api/stats");
+    const stats = await response.json();
+
+    document.getElementById("applied").textContent = stats.applied;
+    document.getElementById("interviews").textContent = stats.interviewing;
+    document.getElementById("offers").textContent = stats.offers;
+    document.getElementById("watching").textContent = stats.watching;
+}
+
+// ----------------------------------------
+// CALENDER (SIDEBAR)
+// ----------------------------------------
 
 function toggleCalendar() {
     const layout = document.querySelector(".applications-layout");
@@ -320,33 +336,6 @@ function renderWeeklyEvents() {
     }
 }
 
-function formatShortDate(dateInput) {
-    const date = dateInput instanceof Date
-        ? dateInput
-        : new Date(dateInput + "T00:00:00");
-
-    return date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric"
-    });
-}
-
-function openFullCalendar() {
-    alert("Full calendar coming soon.");
-}
-
-function getStartOfWeek(date) {
-    const copy = new Date(date);
-    const day = copy.getDay();
-
-    const diff = day === 0 ? -6 : 1 - day;
-
-    copy.setDate(copy.getDate() + diff);
-    copy.setHours(0, 0, 0, 0);
-
-    return copy;
-}
-
 function previousWeek() {
     currentWeekStart.setDate(currentWeekStart.getDate() - 7);
     renderWeeklyEvents();
@@ -357,34 +346,45 @@ function nextWeek() {
     renderWeeklyEvents();
 }
 
-function formatWeekTitleDate(dateInput) {
+function openFullCalendar() {
+    alert("Full calendar coming soon.");
+}
+
+// ----------------------------------------
+// HELPER FUNCTIONS
+// ----------------------------------------
+
+function formatSalary(min, max) {
+    if (!min && !max) {
+        return "";
+    }
+
+    if (min && max) {
+        return `$${min} - $${max}`;
+    }
+
+    if (min) {
+        return `$${min}+`;
+    }
+
+    return `Up to $${max}`;
+}
+
+function formatStatus(status) {
+    return status
+        .toLowerCase()
+        .replaceAll("_", " ");
+}
+
+function formatShortDate(dateInput) {
     const date = dateInput instanceof Date
         ? dateInput
         : new Date(dateInput + "T00:00:00");
 
     return date.toLocaleDateString("en-US", {
         month: "short",
-        day: "numeric",
-        year: "numeric"
+        day: "numeric"
     });
-}
-
-function toLocalDateString(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-}
-
-function getTodayDate() {
-    const today = new Date();
-
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
 }
 
 function getStatusClass(status) {
@@ -418,3 +418,47 @@ function getStatusClass(status) {
 
     return "";
 }
+
+function getStartOfWeek(date) {
+    const copy = new Date(date);
+    const day = copy.getDay();
+
+    const diff = day === 0 ? -6 : 1 - day;
+
+    copy.setDate(copy.getDate() + diff);
+    copy.setHours(0, 0, 0, 0);
+
+    return copy;
+}
+
+
+function formatWeekTitleDate(dateInput) {
+    const date = dateInput instanceof Date
+        ? dateInput
+        : new Date(dateInput + "T00:00:00");
+
+    return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+    });
+}
+
+function toLocalDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function getTodayDate() {
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+

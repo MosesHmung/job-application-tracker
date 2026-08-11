@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application Tracker</title>
 
-    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
 <div class="container">
+
+    <!-- Header -->
     <header>
         <h1>Job Application Tracker</h1>
     </header>
+
+    <!-- Dashboard -->
     <section class="stats">
         <div class="card">
             <p>Applied</p>
@@ -31,11 +35,15 @@
             <h2 id="watching">0</h2>
         </div>
     </section>
+
+    <!-- Main Actions -->
     <section class="toolbar">
         <button id="addButton" onclick="openModal()">
             + Add Application
         </button>
     </section>
+
+    <!-- Applications + calender -->
     <section class="application-section">
         <h2>Your Applications</h2>
 
@@ -44,13 +52,13 @@
             <div class="application-container">
                 <table class="application-table">
                     <thead>
-                    <tr>
-                        <th>Company</th>
-                        <th>Job Title</th>
-                        <th>Status</th>
-                        <th>Date Applied</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>Company</th>
+                            <th>Job Title</th>
+                            <th>Status</th>
+                            <th>Date Applied</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
 
                     <tbody id="applicationList">
@@ -94,8 +102,9 @@
         </div>
     </section>
 </div>
-<div id="applicationModal" class="modal hidden">
 
+<!-- Add / Edit Application Modal -->
+<div id="applicationModal" class="modal hidden">
     <div class="modal-content">
 
         <h2 id="modalTitle">Add Application</h2>
@@ -118,7 +127,7 @@
         </select>
 
         <label>Date Applied</label>
-        <input id="dateInput" type="date" min="1900-01-01" max="9999-12-31">>
+        <input id="dateInput" type="date" min="1900-01-01" max="9999-12-31">
 
         <label>Salary Min</label>
         <input id="salaryMinInput" type="number">
@@ -135,10 +144,10 @@
         </div>
 
     </div>
-
 </div>
-<div id="deleteModal" class="modal hidden">
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal hidden">
     <div class="modal-content">
 
         <h2>Delete Application</h2>
@@ -153,8 +162,7 @@
         </div>
 
     </div>
-
 </div>
-<script src="app.js?v=2"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

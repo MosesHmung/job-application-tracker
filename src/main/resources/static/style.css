@@ -1,3 +1,7 @@
+/* ----------------------------------------
+   Base
+---------------------------------------- */
+
 * {
     margin: 0;
     padding: 0;
@@ -9,6 +13,24 @@ body {
     background: #f5f5f5;
     color: #222;
 }
+
+button {
+    background: #0077ff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #005fd1;
+}
+
+/* ----------------------------------------
+   Layout
+---------------------------------------- */
+
 .container {
     width: 90%;
     max-width: 1400px;
@@ -22,6 +44,11 @@ header {
 header h1 {
     margin-bottom: 8px;
 }
+
+/* ----------------------------------------
+   Dashboard Stats
+---------------------------------------- */
+
 
 .stats {
     display: flex;
@@ -43,26 +70,27 @@ header h1 {
     color: #555;
 }
 
+/* ----------------------------------------
+   Toolbar
+---------------------------------------- */
 
 .toolbar {
     margin-bottom: 25px;
 }
 
-button {
-    background: #0077ff;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background: #005fd1;
-}
+/* ----------------------------------------
+   Application Table
+---------------------------------------- */
 
 .application-section h2 {
     margin-bottom: 16px;
+}
+
+.applications-layout {
+    display: grid;
+    grid-template-columns: 1fr 48px;
+    gap: 12px;
+    align-items: stretch;
 }
 
 .application-container {
@@ -76,13 +104,10 @@ button:hover {
     overflow-x: hidden;
 }
 
-#applicationList {
-    margin-top: 20px;
-}
-
 .application-table {
     width: 100%;
     border-collapse: separate;
+    border-spacing: 0 8px;
 }
 
 .application-table th{
@@ -122,6 +147,10 @@ button:hover {
     padding: 7px 12px;
     font-size: 14px;
 }
+
+/* ----------------------------------------
+   Status Badges
+---------------------------------------- */
 
 .status-badge {
     display: inline-block;
@@ -166,59 +195,9 @@ button:hover {
     color: #374151;
 }
 
-.hidden {
-    display: none;
-}
-
-.modal {
-    position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,0.4);
-
-    justify-content: center;
-    align-items: center;
-}
-
-.modal:not(.hidden) {
-    display: flex;
-}
-
-.modal-content {
-
-    background: white;
-
-    width: 450px;
-
-    padding: 25px;
-
-    border-radius: 12px;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 12px;
-}
-
-.modal-content input,
-.modal-content textarea,
-.modal-content select {
-
-    padding: 10px;
-
-    font-size: 15px;
-}
-
-.modal-buttons {
-
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    margin-top: 10px;
-}
+/* ----------------------------------------
+   Application Details Row
+---------------------------------------- */
 
 .details-row td {
     background: #f8f9fb;
@@ -238,12 +217,49 @@ button:hover {
     margin: 6px 0;
 }
 
-.applications-layout {
-    display: grid;
-    grid-template-columns: 1fr 48px;
-    gap: 12px;
-    align-items: stretch;
+/* ----------------------------------------
+   Modals
+---------------------------------------- */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
 }
+
+.modal:not(.hidden) {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    width: 450px;
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    padding: 10px;
+    font-size: 15px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* ----------------------------------------
+   Calendar Sidebar
+---------------------------------------- */
 
 .applications-layout.calendar-open {
     grid-template-columns: 1fr 460px;
@@ -258,7 +274,6 @@ button:hover {
     border-radius: 12px;
     padding: 0;
     font-size: 22px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,14 +353,11 @@ button:hover {
     width: 24px;
     height: 24px;
     border-radius: 999px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     font-size: 12px;
     font-weight: 700;
-
     margin-top: 8px;
     cursor: pointer;
 }
@@ -376,9 +388,10 @@ button:hover {
     font-size: 14px;
 }
 
-.expand-calendar-button {
-    width: 100%;
-    margin-top: 16px;
-    padding: 10px;
-    font-size: 14px;
+/* ----------------------------------------
+   Utility classes
+---------------------------------------- */
+
+.hidden {
+    display: none;
 }
