@@ -26,6 +26,8 @@ public class Application {
     private Integer salaryMin;
     private Integer salaryMax;
 
+    private String tag;
+
     @Column(columnDefinition = "TEXT")
     private String notes;
 

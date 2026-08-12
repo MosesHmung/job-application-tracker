@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application Tracker</title>
 
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..
+    144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
 <div class="container">
@@ -46,19 +51,46 @@
     <!-- Applications + calender -->
     <section class="application-section">
         <h2>Your Applications</h2>
+        <div class="search-bar">
+            <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search..."
+                    oninput="renderApplications()"
+            >
+
+            <select id="searchField" onchange="renderApplications()">
+                <option value="ALL">All</option>
+                <option value="companyName">Company</option>
+                <option value="jobTitle">Job Title</option>
+                <option value="status">Status</option>
+            </select>
+        </div>
 
         <div class="applications-layout">
 
             <div class="application-container">
                 <table class="application-table">
                     <thead>
-                        <tr>
-                            <th>Company</th>
-                            <th>Job Title</th>
-                            <th>Status</th>
-                            <th>Date Applied</th>
-                            <th>Actions</th>
-                        </tr>
+                    <tr>
+                        <th onclick="setSort('companyName')">
+                            Company <span id="companyNameSort"></span>
+                        </th>
+
+                        <th onclick="setSort('jobTitle')">
+                            Job Title <span id="jobTitleSort"></span>
+                        </th>
+
+                        <th onclick="setSort('status')">
+                            Status <span id="statusSort"></span>
+                        </th>
+
+                        <th onclick="setSort('dateApplied')">
+                            Date Applied <span id="dateAppliedSort"></span>
+                        </th>
+
+                        <th>Actions</th>
+                    </tr>
                     </thead>
 
                     <tbody id="applicationList">
@@ -126,6 +158,16 @@
             <option value="WITHDRAWN">Withdrawn</option>
         </select>
 
+        <label>Tag</label>
+        <select id="tagInput">
+            <option value="">No tag</option>
+            <option value="HIGH_IMPORTANCE">High Importance</option>
+            <option value="DREAM_COMPANY">Dream Company</option>
+            <option value="REMOTE">Remote</option>
+            <option value="REFERRAL">Referral</option>
+            <option value="DEADLINE_SOON">Deadline Soon</option>
+        </select>
+
         <label>Date Applied</label>
         <input id="dateInput" type="date" min="1900-01-01" max="9999-12-31">
 
@@ -163,6 +205,6 @@
 
     </div>
 </div>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

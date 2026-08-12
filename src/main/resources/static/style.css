@@ -1,4 +1,25 @@
 /* ----------------------------------------
+   Theme tokens
+---------------------------------------- */
+
+:root {
+    --bg: #fbf3e9;
+    --surface: #FFFCF6;
+    --surface-soft: #F8F1E4;
+    --surface-muted: #EFE3CE;
+    --border: #E1D2B8;
+    --border-soft: #ECE0C9;
+
+    --text: #3B2A1E;
+    --text-secondary: #8B7355;
+    --text-muted: #A99A82;
+
+    --accent: #8A5A34;
+    --accent-hover: #6E4527;
+    --accent-soft: #E9DAC3;
+}
+
+/* ----------------------------------------
    Base
 ---------------------------------------- */
 
@@ -6,25 +27,29 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Karla', Arial, Helvetica, sans-serif;
 }
 
 body {
-    background: #f5f5f5;
-    color: #222;
+    background: var(--bg);
+    background-image: radial-gradient(circle at 1px 1px, rgba(139,115,85,0.09) 1px, transparent 0);
+    background-size: 22px 22px;
+    color: var(--text);
 }
 
 button {
-    background: #0077ff;
-    color: white;
+    background: var(--accent);
+    color: #FBF3E7;
     border: none;
+    border-radius: 10px;
     padding: 12px 20px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
 }
 
 button:hover {
-    background: #005fd1;
+    background: var(--accent-hover);
 }
 
 /* ----------------------------------------
@@ -43,6 +68,10 @@ header {
 
 header h1 {
     margin-bottom: 8px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+
 }
 
 /* ----------------------------------------
@@ -58,16 +87,27 @@ header h1 {
 
 .card {
     flex: 1;
-    background: white;
+    background: var(--surface);
     padding: 25px;
     border-radius: 12px;
     text-align: left;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    border: 1px solid var(--border-soft);
+
+}
+
+.card p {
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .card h2 {
+    font-family: 'Fraunces', serif;
     font-size: 2rem;
-    color: #555;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 4px;
 }
 
 /* ----------------------------------------
@@ -79,11 +119,52 @@ header h1 {
 }
 
 /* ----------------------------------------
+   Search
+---------------------------------------- */
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 430px;
+    height: 44px;
+    margin-bottom: 14px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.search-bar input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    padding: 0 14px;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+}
+
+.search-bar select {
+    height: 70%;
+    border: none;
+    border-left: 1px solid var(--border);
+    padding: 0 10px;
+    font-size: 15px;
+    background: transparent;
+    color: var(--text-secondary);
+    outline: none;
+    cursor: pointer;
+}
+
+/* ----------------------------------------
    Application Table
 ---------------------------------------- */
 
 .application-section h2 {
     margin-bottom: 16px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
 }
 
 .applications-layout {
@@ -94,9 +175,9 @@ header h1 {
 }
 
 .application-container {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    background: #f8f9fb;
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    background: var(--surface);
     padding: 20px;
 
     max-height: 350px;
@@ -110,18 +191,28 @@ header h1 {
     border-spacing: 0 8px;
 }
 
-.application-table th{
+.application-table th {
     padding: 8px 12px;
     text-align: left;
     background: transparent;
-    color: #555;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+}
+
+.application-table th:hover {
+    color: var(--accent-hover);
 }
 
 .application-table td {
-    background: white;
+    background: var(--surface);
     padding: 8px 12px;
     border-bottom: none;
+    color: var(--text);
 }
 
 .application-table td:first-child {
@@ -135,7 +226,7 @@ header h1 {
 }
 
 .application-table tr:hover {
-    background: #fafcff;
+    background: var(--accent-soft);
 }
 
 .table-actions {
@@ -145,7 +236,17 @@ header h1 {
 
 .table-actions button {
     padding: 7px 12px;
-    font-size: 14px;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    font-weight: 600;
+}
+
+.table-actions button:hover {
+    background: var(--accent-soft);
+    color: var(--accent-hover);
+    border-color: var(--accent-soft);
 }
 
 /* ----------------------------------------
@@ -161,38 +262,38 @@ header h1 {
 }
 
 .status-watching {
-    background: #f3f4f6;
-    color: #4b5563;
+    background: #E7E0D2;
+    color: #7C6E58;
 }
 
 .status-applied {
-    background: #e8f3ff;
-    color: #0077ff;
+    background: #99acfb;
+    color: #374ba5;
 }
 
 .status-phone {
-    background: #ede9fe;
-    color: #7c3aed;
+    background: #E8DCEA;
+    color: #7A5586;
 }
 
 .status-interviewing {
-    background: #fef3c7;
-    color: #b45309;
+    background: #F6DFC0;
+    color: #A15A17;
 }
 
 .status-offer {
-    background: #dcfce7;
-    color: #16a34a;
+    background: #DFE7CB;
+    color: #556B2F;
 }
 
 .status-rejected {
-    background: #fee2e2;
-    color: #dc2626;
+    background: #F3D9CE;
+    color: #A0492E;
 }
 
 .status-withdrawn {
-    background: #e5e7eb;
-    color: #374151;
+    background: #E4DED2;
+    color: #756B58;
 }
 
 /* ----------------------------------------
@@ -200,17 +301,17 @@ header h1 {
 ---------------------------------------- */
 
 .details-row td {
-    background: #f8f9fb;
+    background: var(--surface-soft);
     padding: 0 12px 12px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-soft);
 }
 
 .application-details {
-    background: white;
+    background: var(--surface);
     border-radius: 10px;
     padding: 14px 16px;
     font-size: 14px;
-    color: #444;
+    color: var(--text-secondary);
 }
 
 .application-details p {
@@ -224,7 +325,7 @@ header h1 {
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(59,42,30,0.45);
     justify-content: center;
     align-items: center;
 }
@@ -234,13 +335,20 @@ header h1 {
 }
 
 .modal-content {
-    background: white;
+    background: var(--surface);
     width: 450px;
     padding: 25px;
-    border-radius: 12px;
+    border-radius: 16px;
+    border: 1px solid var(--border-soft);
     display: flex;
     flex-direction: column;
     gap: 12px;
+}
+
+.modal-content label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 600;
 }
 
 .modal-content input,
@@ -248,6 +356,17 @@ header h1 {
 .modal-content select {
     padding: 10px;
     font-size: 15px;
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus,
+.modal-content select:focus {
+    outline: none;
+    border-color: var(--accent);
 }
 
 .modal-buttons {
@@ -271,18 +390,20 @@ header h1 {
 
 .calendar-toggle {
     min-height: 350px;
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 0;
     font-size: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .calendar-panel {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
     padding: 18px;
     min-height: 350px;
 }
@@ -294,9 +415,20 @@ header h1 {
     margin-bottom: 16px;
 }
 
+
+
 .calendar-header button {
     padding: 4px 10px;
     font-size: 18px;
+    background: var(--surface-soft);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.calendar-header button:hover {
+    background: var(--accent-soft);
+    color: var(--accent-hover);
+
 }
 
 .week-calendar {
@@ -306,17 +438,20 @@ header h1 {
 .week-days-header {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    background: #d1d1d1;
+    background: var(--surface-muted);
     border-radius: 8px 8px 0 0;
     overflow: hidden;
 }
 
 .week-days-header span {
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     font-weight: 700;
+    color: var(--text-secondary);
     padding: 8px 4px;
-    border-right: 1px solid white;
+    border-right: 1px solid var(--surface);
 }
 
 .week-days-header span:last-child {
@@ -326,14 +461,14 @@ header h1 {
 .week-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-soft);
     border-top: none;
     min-height: 180px;
 }
 
 .week-day {
-    background: #f8f9fb;
-    border-right: 1px solid #ddd;
+    background: var(--surface-soft);
+    border-right: 1px solid var(--border-soft);
     padding: 6px;
     font-size: 12px;
     min-height: 180px;
@@ -346,7 +481,8 @@ header h1 {
 .week-date {
     font-weight: 700;
     margin-bottom: 8px;
-    color: #555;
+    color: var(--text-secondary);
+
 }
 
 .week-event-count {
@@ -363,29 +499,36 @@ header h1 {
 }
 
 .application-count {
-    background: #0077ff;
-    color: white;
+    background: #99acfb;
+    color: #FBF3E7;
 }
 
 .interview-count {
-    background: #facc15;
-    color: #222;
+    background: #C17817;
+    color: #FBF3E7;
 }
 
 .offer-count {
-    background: #16a34a;
-    color: white;
+    background: #6E8A4A;
+    color: #FBF3E7;
 }
 
 .empty-day {
-    color: #bbb;
+    color: var(--text-muted);
 }
 
 .expand-calendar-button {
     width: 100%;
     margin-top: 16px;
     padding: 10px;
-    font-size: 14px;
+    font-size: 13px;
+    background: var(--accent-soft);
+    color: var(--accent-hover);
+    font-weight: 700;
+}
+
+.expand-calendar-button:hover {
+    background: #E1CFAE;
 }
 
 /* ----------------------------------------
@@ -394,4 +537,12 @@ header h1 {
 
 .hidden {
     display: none;
+}
+
+.actions-header {
+    cursor: default;
+}
+
+.actions-header:hover {
+    color: var(--text-muted);
 }

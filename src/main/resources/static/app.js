@@ -10,6 +10,9 @@ let editingApplicationId = null;
 let cachedApplications = [];
 let currentWeekStart = getStartOfWeek(new Date());
 
+let currentSortField = "dateApplied";
+let currentSortDirection = "desc";
+
 // ----------------------------------------
 // PAGE LOAD
 // ----------------------------------------
@@ -30,6 +33,8 @@ async function loadApplications() {
 
     // Save the latest backend data so the calendar stays in sync with the table.
     cachedApplications = applications;
+
+    renderWeeklyEvents();
     renderWeeklyEvents();
 
     const list = document.getElementById("applicationList");
@@ -78,6 +83,118 @@ async function loadApplications() {
             </tr>
         `;
     });
+}
+
+function renderApplications() {
+    const list = document.getElementById("applicationList");
+    list.innerHTML = "";
+
+    const searchText = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const searchField = document.getElementById("searchField").value;
+
+    let applicationsToShow = [...cachedApplications];
+
+    // Search by company or job title
+    applicationsToShow = applicationsToShow.filter(application => {
+        if (searchText === "") {
+            return true;
+        }
+
+        const searchableFields = {
+            companyName: application.companyName ?? "",
+            jobTitle: application.jobTitle ?? "",
+            status: formatStatus(application.status ?? ""),
+        };
+
+        if (searchField === "ALL") {
+            return Object.values(searchableFields).some(value =>
+                value.toLowerCase().includes(searchText)
+            );
+        }
+
+        return searchableFields[searchField]
+            .toLowerCase()
+            .includes(searchText);
+    });
+
+    // Sort the filtered results.
+    applicationsToShow.sort((a, b) => {
+        const valueA = a[currentSortField] ?? "";
+        const valueB = b[currentSortField] ?? "";
+
+        if (currentSortField === "dateApplied") {
+            return currentSortDirection === "asc"
+                ? new Date(valueA) - new Date(valueB)
+                : new Date(valueB) - new Date(valueA);
+        }
+
+        return currentSortDirection === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+    });
+
+    updateSortIndicators();
+
+    applicationsToShow.forEach(application => {
+        list.innerHTML += `
+            <tr>
+                <td>${application.companyName ?? ""}</td>
+                <td>${application.jobTitle ?? ""}</td>
+                <td>
+                    <span class="status-badge ${getStatusClass(application.status)}">
+                        ${application.status ?? ""}
+                    </span>
+                </td>
+                <td>${application.dateApplied ?? "No date"}</td>
+                <td>
+                    <div class="table-actions">
+                        <button onclick="editApplication(${application.id})">
+                            Edit
+                        </button>
+
+                        <button onclick="deleteApplication(${application.id}, '${application.jobTitle}')">
+                            Delete
+                        </button>
+
+                        <button onclick="toggleDetails(${application.id})" id="expandBtn-${application.id}">
+                            View
+                        </button>
+                    </div>
+                </td>
+            </tr>
+
+            <tr id="details-${application.id}" class="details-row hidden">
+                <td colspan="5">
+                    <div class="application-details">
+                        <p>
+                            <strong>Salary:</strong>
+                            ${formatSalary(application.salaryMin, application.salaryMax)}
+                        </p>
+
+                        <p>
+                            <strong>Notes:</strong>
+                            ${application.notes || ""}
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function setSort(field) {
+    if (currentSortField === field) {
+        currentSortDirection = currentSortDirection === "asc" ? "desc" : "asc";
+    } else {
+        currentSortField = field;
+        currentSortDirection = "asc";
+    }
+
+    renderApplications();
 }
 
 function toggleDetails(id) {
@@ -376,6 +493,16 @@ function formatStatus(status) {
         .replaceAll("_", " ");
 }
 
+function formatTag(tag) {
+    if (!tag) {
+        return "";
+    }
+
+    return tag
+        .toLowerCase()
+        .replaceAll("_", " ");
+}
+
 function formatShortDate(dateInput) {
     const date = dateInput instanceof Date
         ? dateInput
@@ -460,5 +587,19 @@ function getTodayDate() {
     const day = String(today.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
+}
+
+function updateSortIndicators() {
+    const fields = ["companyName", "jobTitle", "status", "dateApplied"];
+
+    fields.forEach(field => {
+        const indicator = document.getElementById(`${field}Sort`);
+
+        if (!indicator) return;
+
+        indicator.textContent = field === currentSortField
+            ? currentSortDirection === "asc" ? "↑" : "↓"
+            : "";
+    });
 }
 
