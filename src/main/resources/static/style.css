@@ -175,14 +175,26 @@ header h1 {
 }
 
 .application-container {
-    border: 1px solid var(--border-soft);
-    border-radius: 16px;
-    background: var(--surface);
+    border: 1px solid #e6d8c3;
+    border-radius: 18px;
+    background: var(--bg);
     padding: 20px;
-
-    max-height: 350px;
+    height: 600px;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.application-header {
+    margin-bottom: 12px;
+}
+
+.application-header h2 {
+    margin-bottom: 12px;
+    padding: 12px;
+}
+
+.application-section h2 {
+    margin-bottom: 0;
 }
 
 .application-table {
@@ -389,11 +401,11 @@ header h1 {
 }
 
 .calendar-toggle {
-    min-height: 350px;
+    min-height: 400px;
     border-radius: 16px;
     padding: 0;
     font-size: 22px;
-    background: var(--surface);
+    background: var(--text-secondary);
     border: 1px solid var(--border-soft);
     display: flex;
     align-items: center;
@@ -515,20 +527,6 @@ header h1 {
 
 .empty-day {
     color: var(--text-muted);
-}
-
-.expand-calendar-button {
-    width: 100%;
-    margin-top: 16px;
-    padding: 10px;
-    font-size: 13px;
-    background: var(--accent-soft);
-    color: var(--accent-hover);
-    font-weight: 700;
-}
-
-.expand-calendar-button:hover {
-    background: #E1CFAE;
 }
 
 /* ----------------------------------------

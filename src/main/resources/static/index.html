@@ -50,26 +50,31 @@
 
     <!-- Applications + calender -->
     <section class="application-section">
-        <h2>Your Applications</h2>
-        <div class="search-bar">
-            <input
-                    id="searchInput"
-                    type="text"
-                    placeholder="Search..."
-                    oninput="renderApplications()"
-            >
-
-            <select id="searchField" onchange="renderApplications()">
-                <option value="ALL">All</option>
-                <option value="companyName">Company</option>
-                <option value="jobTitle">Job Title</option>
-                <option value="status">Status</option>
-            </select>
-        </div>
 
         <div class="applications-layout">
 
             <div class="application-container">
+
+                <div class="application-header">
+                    <h2>Your Applications</h2>
+
+                    <div class="search-bar">
+                        <input
+                                id="searchInput"
+                                type="text"
+                                placeholder="Search..."
+                                oninput="renderApplications()"
+                        >
+
+                        <select id="searchField" onchange="renderApplications()">
+                            <option value="ALL">All</option>
+                            <option value="companyName">Company</option>
+                            <option value="jobTitle">Job Title</option>
+                            <option value="status">Status</option>
+                        </select>
+                    </div>
+                </div>
+
                 <table class="application-table">
                     <thead>
                     <tr>
@@ -99,7 +104,7 @@
             </div>
 
             <button class="calendar-toggle" onclick="toggleCalendar()">
-                📅
+                +
             </button>
 
             <aside id="calendarPanel" class="calendar-panel hidden">
@@ -125,10 +130,6 @@
                         <!-- JS fills this -->
                     </div>
                 </div>
-
-                <button class="expand-calendar-button" onclick="openFullCalendar()">
-                    Expand Calendar
-                </button>
             </aside>
 
         </div>
