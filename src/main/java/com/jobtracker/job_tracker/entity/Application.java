@@ -5,6 +5,8 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "applications")
@@ -22,11 +24,10 @@ public class Application {
     private Status status = Status.APPLIED;
 
     private LocalDate dateApplied;
+    private LocalDateTime statusUpdatedAt;
     private String jobPostingUrl;
     private Integer salaryMin;
     private Integer salaryMax;
-
-    private String tag;
 
     @Column(columnDefinition = "TEXT")
     private String notes;

@@ -363,7 +363,6 @@ function clearForm() {
 // ----------------------------------------
 
 async function loadStats() {
-
     const response = await fetch("/api/stats");
     const stats = await response.json();
 
@@ -371,6 +370,18 @@ async function loadStats() {
     document.getElementById("interviews").textContent = stats.interviewing;
     document.getElementById("offers").textContent = stats.offers;
     document.getElementById("watching").textContent = stats.watching;
+
+    document.getElementById("appliedThisWeek").textContent =
+        `+${stats.appliedThisWeek} this week`;
+
+    document.getElementById("interviewingThisWeek").textContent =
+        `+${stats.interviewingThisWeek} this week`;
+
+    document.getElementById("offersThisWeek").textContent =
+        `+${stats.offersThisWeek} this week`;
+
+    document.getElementById("watchingThisWeek").textContent =
+        `+${stats.watchingThisWeek} this week`;
 }
 
 // ----------------------------------------

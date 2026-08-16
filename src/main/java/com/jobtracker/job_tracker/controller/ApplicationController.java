@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.jobtracker.job_tracker.dto.ApplicationResponse;
 
+
 @RestController
 @RequestMapping("/api/applications")
 @CrossOrigin(origins = "*")

@@ -17,6 +17,15 @@
     --accent: #8A5A34;
     --accent-hover: #6E4527;
     --accent-soft: #E9DAC3;
+
+    --applied-soft: #99acfb;
+    --applied: #374ba5;
+
+    --interview-soft: #fbd6a4;
+    --interview: #C17817;
+
+    --offer-soft: #e6fbb0;
+    --offer: #556B2F;
 }
 
 /* ----------------------------------------
@@ -110,6 +119,14 @@ header h1 {
     margin-top: 4px;
 }
 
+.weekly-change {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
 /* ----------------------------------------
    Toolbar
 ---------------------------------------- */
@@ -162,7 +179,6 @@ header h1 {
 ---------------------------------------- */
 
 .application-section h2 {
-    margin-bottom: 16px;
     font-family: 'Fraunces', serif;
     font-weight: 600;
 }
@@ -175,7 +191,7 @@ header h1 {
 }
 
 .application-container {
-    border: 1px solid #e6d8c3;
+    border: 1px solid var(--border-soft);
     border-radius: 18px;
     background: var(--bg);
     padding: 20px;
@@ -193,18 +209,14 @@ header h1 {
     padding: 12px;
 }
 
-.application-section h2 {
-    margin-bottom: 0;
-}
-
 .application-table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0 8px;
 }
 
 .application-table th {
-    padding: 8px 12px;
     text-align: left;
     background: transparent;
     color: var(--text-muted);
@@ -216,15 +228,41 @@ header h1 {
     user-select: none;
 }
 
+.application-table td {
+    background: var(--surface);
+    color: var(--text);
+}
+
+.application-table th,
+.application-table td {
+    padding: 8px 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .application-table th:hover {
     color: var(--accent-hover);
 }
 
-.application-table td {
-    background: var(--surface);
-    padding: 8px 12px;
-    border-bottom: none;
-    color: var(--text);
+.application-table th:nth-child(1) {
+    width: 20%;
+}
+
+.application-table th:nth-child(2) {
+    width: 20%;
+}
+
+.application-table th:nth-child(3) {
+    width: 18%;
+}
+
+.application-table th:nth-child(4) {
+    width: 18%;
+}
+
+.application-table th:nth-child(5) {
+    width: 24%;
 }
 
 .application-table td:first-child {
@@ -237,7 +275,7 @@ header h1 {
     border-bottom-right-radius: 8px;
 }
 
-.application-table tr:hover {
+.application-table tr:hover td{
     background: var(--accent-soft);
 }
 
@@ -279,8 +317,8 @@ header h1 {
 }
 
 .status-applied {
-    background: #99acfb;
-    color: #374ba5;
+    background: var(--applied-soft);
+    color: var(--applied);
 }
 
 .status-phone {
@@ -289,13 +327,13 @@ header h1 {
 }
 
 .status-interviewing {
-    background: #F6DFC0;
-    color: #A15A17;
+    background: var(--interview-soft);
+    color: var(--interview);
 }
 
 .status-offer {
-    background: #DFE7CB;
-    color: #556B2F;
+    background: var(--offer-soft);
+    color: var(--offer);
 }
 
 .status-rejected {
@@ -319,6 +357,9 @@ header h1 {
 }
 
 .application-details {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     background: var(--surface);
     border-radius: 10px;
     padding: 14px 16px;
@@ -511,18 +552,18 @@ header h1 {
 }
 
 .application-count {
-    background: #99acfb;
-    color: #FBF3E7;
+    background: var(--applied-soft);
+    color: var(--surface);
 }
 
 .interview-count {
-    background: #C17817;
-    color: #FBF3E7;
+    background: var(--interview-soft);
+    color: var(--surface);
 }
 
 .offer-count {
-    background: #6E8A4A;
-    color: #FBF3E7;
+    background: var(--offer-soft);
+    color: var(--surface);
 }
 
 .empty-day {

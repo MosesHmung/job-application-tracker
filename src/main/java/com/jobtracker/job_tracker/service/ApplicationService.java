@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import com.jobtracker.job_tracker.dto.ApplicationResponse;
 import com.jobtracker.job_tracker.entity.Company;
+import java.time.LocalDateTime;
+
 
 @Service
 public class ApplicationService {
@@ -41,8 +43,13 @@ public class ApplicationService {
     }
 
     public Application createApplication(Application application) {
-        Company company = companyService.getOrCreateCompany(application.getCompany().getName());
+        Company company = companyService.getOrCreateCompany(
+                application.getCompany().getName()
+        );
+
         application.setCompany(company);
+        application.setStatusUpdatedAt(LocalDateTime.now());
+
         return applicationRepository.save(application);
     }
 
@@ -51,7 +58,10 @@ public class ApplicationService {
         Application existing = getApplicationById(id);
 
         existing.setJobTitle(updated.getJobTitle());
-        existing.setStatus(updated.getStatus());
+        if (existing.getStatus() != updated.getStatus()) {
+            existing.setStatus(updated.getStatus());
+            existing.setStatusUpdatedAt(LocalDateTime.now());
+        }
         existing.setDateApplied(updated.getDateApplied());
         existing.setJobPostingUrl(updated.getJobPostingUrl());
         existing.setSalaryMin(updated.getSalaryMin());
