@@ -275,10 +275,6 @@ header h1 {
     border-bottom-right-radius: 8px;
 }
 
-.application-table tr:hover td{
-    background: var(--accent-soft);
-}
-
 .table-actions {
     display: flex;
     gap: 8px;
@@ -430,8 +426,46 @@ header h1 {
 }
 
 /* ----------------------------------------
-   Calendar Sidebar
+   Sidebar
 ---------------------------------------- */
+
+.sidebar {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 48px 16px 16px;
+
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    min-width: 0;
+}
+
+.sidebar-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
 
 .applications-layout.calendar-open {
     grid-template-columns: 1fr 460px;
@@ -455,10 +489,9 @@ header h1 {
 
 .calendar-panel {
     background: var(--surface);
-    border: 1px solid var(--border-soft);
+    border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 18px;
-    min-height: 350px;
+    padding: 16px;
 }
 
 .calendar-header {
@@ -467,8 +500,6 @@ header h1 {
     align-items: center;
     margin-bottom: 16px;
 }
-
-
 
 .calendar-header button {
     padding: 4px 10px;
@@ -568,6 +599,132 @@ header h1 {
 
 .empty-day {
     color: var(--text-muted);
+}
+
+#weekTitle {
+    margin: 0;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--text);
+}
+
+.activity-widget {
+    margin-top: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.activity-header h3 {
+    margin: 0;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--text);
+}
+
+.activity-header select {
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text-secondary);
+}
+
+.activity-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.activity-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.donut-chart {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: #e8dfd1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.donut-center {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background: var(--surface);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.donut-center strong {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    color: var(--text);
+}
+
+.donut-center span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.activity-legend {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.activity-item {
+    display: grid;
+    grid-template-columns: 10px 1fr auto;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.activity-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.applied-dot {
+    background: #8ba66b;
+}
+
+.interview-dot {
+    background: #7da5cf;
+}
+
+.offer-dot {
+    background: #e9aa62;
+}
+
+.watching-dot {
+    background: #aaa59c;
+}
+
+.rejected-dot {
+    background: #cf665b;
 }
 
 /* ----------------------------------------

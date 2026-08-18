@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..
     144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="style.css?v=20">
 </head>
 <body>
 <div class="container">
@@ -114,31 +114,90 @@
                 +
             </button>
 
-            <aside id="calendarPanel" class="calendar-panel hidden">
-                <div class="calendar-header">
-                    <button onclick="previousWeek()">‹</button>
-                    <h3 id="weekTitle">This Week</h3>
-                    <button onclick="nextWeek()">›</button>
-                    <button onclick="toggleCalendar()">×</button>
-                </div>
+            <div id="sidebar" class="sidebar hidden">
+                <button class="sidebar-close" onclick="toggleCalendar()">×</button>
 
-                <div class="week-calendar">
-                    <div class="week-days-header">
-                        <span>Mon</span>
-                        <span>Tue</span>
-                        <span>Wed</span>
-                        <span>Thu</span>
-                        <span>Fri</span>
-                        <span>Sat</span>
-                        <span>Sun</span>
+                <aside id="calendarPanel" class="calendar-panel">
+                    <div class="calendar-header">
+                        <button onclick="previousWeek()">‹</button>
+                        <h3 id="weekTitle">This Week</h3>
+                        <button onclick="nextWeek()">›</button>
                     </div>
 
-                    <div id="weekGrid" class="week-grid">
-                        <!-- JS fills this -->
+                    <div class="week-calendar">
+                        <div class="week-days-header">
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                            <span>Sun</span>
+                        </div>
+
+                        <div id="weekGrid" class="week-grid">
+                            <!-- JS fills this -->
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="activity-widget">
+
+                    <div class="activity-header">
+                        <h3>Application Activity</h3>
+
+                        <select id="activityRange">
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+
+                    <div class="activity-content">
+
+                        <div class="activity-chart">
+                            <div class="donut-chart">
+                                <div class="donut-center">
+                                    <strong id="activityTotal">0</strong>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="activity-legend">
+
+                            <div class="activity-item">
+                                <span class="activity-dot applied-dot"></span>
+                                <span>Applied</span>
+                                <strong id="activityApplied">0</strong>
+                            </div>
+
+                            <div class="activity-item">
+                                <span class="activity-dot interview-dot"></span>
+                                <span>Interviews</span>
+                                <strong id="activityInterviews">0</strong>
+                            </div>
+
+                            <div class="activity-item">
+                                <span class="activity-dot offer-dot"></span>
+                                <span>Offers</span>
+                                <strong id="activityOffers">0</strong>
+                            </div>
+
+                            <div class="activity-item">
+                                <span class="activity-dot watching-dot"></span>
+                                <span>Watching</span>
+                                <strong id="activityWatching">0</strong>
+                            </div>
+
+                            <div class="activity-item">
+                                <span class="activity-dot rejected-dot"></span>
+                                <span>Rejected</span>
+                                <strong id="activityRejected">0</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </aside>
 
+            </div>
         </div>
     </section>
 </div>
@@ -204,6 +263,6 @@
 
     </div>
 </div>
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

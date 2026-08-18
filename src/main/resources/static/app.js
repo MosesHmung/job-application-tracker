@@ -382,6 +382,24 @@ async function loadStats() {
 
     document.getElementById("watchingThisWeek").textContent =
         `+${stats.watchingThisWeek} this week`;
+
+    document.getElementById("activityTotal").textContent =
+        stats.total;
+
+    document.getElementById("activityApplied").textContent =
+        stats.applied;
+
+    document.getElementById("activityInterviews").textContent =
+        stats.interviewing;
+
+    document.getElementById("activityOffers").textContent =
+        stats.offers;
+
+    document.getElementById("activityWatching").textContent =
+        stats.watching;
+
+    document.getElementById("activityRejected").textContent =
+        stats.rejected;
 }
 
 // ----------------------------------------
@@ -390,10 +408,10 @@ async function loadStats() {
 
 function toggleCalendar() {
     const layout = document.querySelector(".applications-layout");
-    const calendarPanel = document.getElementById("calendarPanel");
+    const sidebar = document.getElementById("sidebar");
 
     layout.classList.toggle("calendar-open");
-    calendarPanel.classList.toggle("hidden");
+    sidebar.classList.toggle("hidden");
 }
 
 function renderWeeklyEvents() {
