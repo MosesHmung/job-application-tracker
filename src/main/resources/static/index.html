@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..
     144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=24">
+    <link rel="stylesheet" href="style.css?v=25">
 </head>
 <body>
 <div class="container">
@@ -146,8 +146,10 @@
                     <div class="activity-header">
                         <h3>Application Activity</h3>
 
-                        <select id="activityRange">
+                        <select id="activityRange" onchange="renderActivity()">
                             <option value="all">All Time</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
                         </select>
                     </div>
 
@@ -269,6 +271,6 @@
 
     </div>
 </div>
-<script src="app.js?v=13"></script>
+<script src="app.js?v=14"></script>
 </body>
 </html>

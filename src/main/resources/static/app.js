@@ -35,7 +35,8 @@ async function loadApplications() {
     cachedApplications = applications;
 
     renderWeeklyEvents();
-    renderWeeklyEvents();
+    renderApplications()
+    renderActivity();
 
     const list = document.getElementById("applicationList");
 
@@ -195,6 +196,7 @@ function setSort(field) {
     }
 
     renderApplications();
+    renderActivity();
 }
 
 function toggleDetails(id) {
@@ -382,67 +384,109 @@ async function loadStats() {
 
     document.getElementById("watchingThisWeek").textContent =
         `+${stats.watchingThisWeek} this week`;
+}
 
-    const activityTotal = stats.total - stats.watching;
+function renderActivity() {
+    const range = document.getElementById("activityRange").value;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    document.getElementById("activityTotal").textContent =
-        activityTotal;
+    let filteredApplications = cachedApplications.filter(app => {
+        // Watching isn't part of Application Activity
+        if (app.status === "WATCHING") {
+            return false;
+        }
 
-    document.getElementById("activityApplied").textContent =
-        stats.applied;
+        const applicationDate = new Date(app.dateApplied + "T00:00:00");
 
-    document.getElementById("activityInterviews").textContent =
-        stats.interviewing;
+        if (range === "week") {
+            const startOfWeek = new Date(today);
 
-    document.getElementById("activityOffers").textContent =
-        stats.offers;
+            const day = today.getDay();
+            const daysSinceMonday = day === 0 ? 6 : day - 1;
 
-    document.getElementById("activityRejected").textContent =
-        stats.rejected;
+            startOfWeek.setDate(today.getDate() - daysSinceMonday);
 
-    document.getElementById("activityPhoneScreen").textContent =
-        stats.phoneScreen;
+            return applicationDate >= startOfWeek &&
+                applicationDate <= today;
+        }
 
-    document.getElementById("activityWithdrawn").textContent =
-        stats.withdrawn;
+        if (range === "month") {
+            return (
+                applicationDate.getFullYear() === today.getFullYear() &&
+                applicationDate.getMonth() === today.getMonth()
+            );
+        }
 
+        return true;
+    });
+
+    updateActivityWidget(filteredApplications);
+}
+
+function updateActivityWidget(filteredApplications) {
+
+    const counts = {
+        APPLIED: 0,
+        PHONE_SCREEN: 0,
+        INTERVIEWING: 0,
+        OFFER: 0,
+        REJECTED: 0,
+        WITHDRAWN: 0
+    };
+
+    filteredApplications.forEach(app => {
+        if (counts[app.status] !== undefined) {
+            counts[app.status]++;
+        }
+    });
+
+    const total = filteredApplications.length;
+
+    document.getElementById("activityTotal").textContent = total;
+    document.getElementById("activityApplied").textContent = counts.APPLIED;
+    document.getElementById("activityPhoneScreen").textContent = counts.PHONE_SCREEN;
+    document.getElementById("activityInterviews").textContent = counts.INTERVIEWING;
+    document.getElementById("activityOffers").textContent = counts.OFFER;
+    document.getElementById("activityRejected").textContent = counts.REJECTED;
+    document.getElementById("activityWithdrawn").textContent = counts.WITHDRAWN;
     const styles = getComputedStyle(document.documentElement);
 
     const activityData = [
-        { count: stats.applied, color: styles.getPropertyValue("--applied-soft").trim() },
-        { count: stats.phoneScreen, color: styles.getPropertyValue("--phone-screen-soft").trim() },
-        { count: stats.interviewing, color: styles.getPropertyValue("--interview-soft").trim() },
-        { count: stats.offers, color: styles.getPropertyValue("--offer-soft").trim() },
-        { count: stats.rejected, color: styles.getPropertyValue("--rejected-soft").trim() },
-        { count: stats.withdrawn, color: styles.getPropertyValue("--withdrawn-soft").trim() }
+        { count: counts.APPLIED, color: styles.getPropertyValue("--applied-soft").trim() },
+        { count: counts.PHONE_SCREEN, color: styles.getPropertyValue("--phone-screen-soft").trim() },
+        { count: counts.INTERVIEWING, color: styles.getPropertyValue("--interview-soft").trim() },
+        { count: counts.OFFER, color: styles.getPropertyValue("--offer-soft").trim() },
+        { count: counts.REJECTED, color: styles.getPropertyValue("--rejected-soft").trim() },
+        { count: counts.WITHDRAWN, color: styles.getPropertyValue("--withdrawn-soft").trim() }
     ];
 
-
-    const total = stats.total;
     const donut = document.getElementById("activityDonut");
 
     if (total === 0) {
         donut.style.background = "#e8dfd1";
-    } else {
-        let currentPercent = 0;
-        const segments = [];
-
-        activityData.forEach(item => {
-            if (item.count === 0) return;
-
-            const startPercent = currentPercent;
-            const percentage = (item.count / total) * 100;
-
-            currentPercent += percentage;
-
-            segments.push(
-                `${item.color} ${startPercent}% ${currentPercent}%`
-            );
-        });
-
-        donut.style.background =
-            `conic-gradient(${segments.join(", ")})`;
+        return;
     }
+
+    let currentPercent = 0;
+    const segments = [];
+
+    activityData.forEach(item => {
+        if (item.count === 0) return;
+
+        const startPercent = currentPercent;
+        const percentage = (item.count / total) * 100;
+
+        currentPercent += percentage;
+
+        segments.push(
+            `${item.color} ${startPercent}% ${currentPercent}%`
+        );
+    });
+
+    donut.style.background =
+        `conic-gradient(${segments.join(", ")})`;
 }
 
 // ----------------------------------------
