@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Tracker</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+
+<div class="popup-container">
+
+    <h2>Save Job</h2>
+
+    <label for="companyInput">Company</label>
+    <input
+            id="companyInput"
+            type="text"
+            placeholder="e.g. Shopify"
+    >
+
+    <label for="jobTitleInput">Job Title</label>
+    <input
+            id="jobTitleInput"
+            type="text"
+            placeholder="e.g. Software Engineer Intern"
+    >
+
+    <label for="statusInput">Status</label>
+    <select id="statusInput">
+        <option value="WATCHING">Watching</option>
+        <option value="APPLIED">Applied</option>
+    </select>
+
+    <button id="saveButton">
+        Save to Tracker
+    </button>
+
+    <p id="message"></p>
+
+</div>
+
+<script src="popup.js"></script>
+
+</body>
+</html>

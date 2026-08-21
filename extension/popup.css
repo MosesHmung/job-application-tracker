@@ -1,0 +1,38 @@
+body {
+    width: 320px;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.popup-container {
+    padding: 20px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+input,
+select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+}
+
+button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#message {
+    font-size: 13px;
+}
