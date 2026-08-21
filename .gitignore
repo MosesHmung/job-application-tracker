@@ -34,3 +34,7 @@ build/
 
 .env
 .DS_Store
+
+data/
+*.mv.db
+*.trace.db

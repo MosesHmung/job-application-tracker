@@ -388,7 +388,7 @@ async function loadStats() {
 
 function renderActivity() {
     const range = document.getElementById("activityRange").value;
-    
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
