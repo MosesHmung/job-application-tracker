@@ -26,6 +26,10 @@
 
     --offer-soft: #e6fbb0;
     --offer: #556B2F;
+
+    --rejected-soft: #A0492E;
+    --phone-screen-soft: #7A5586;
+    --withdrawn-soft: #756B58;
 }
 
 /* ----------------------------------------
@@ -708,24 +712,29 @@ header h1 {
 }
 
 .applied-dot {
-    background: #8ba66b;
+    background: var(--applied-soft);
 }
 
 .interview-dot {
-    background: #7da5cf;
+    background: var(--interview-soft);
 }
 
 .offer-dot {
-    background: #e9aa62;
-}
-
-.watching-dot {
-    background: #aaa59c;
+    background: var(--offer-soft);
 }
 
 .rejected-dot {
-    background: #cf665b;
+    background: var(--rejected-soft);
 }
+
+.phone-screen-dot {
+    background: var(--phone-screen-soft);
+}
+
+.withdrawn-dot {
+    background: var(--withdrawn-soft);
+}
+
 
 /* ----------------------------------------
    Utility classes

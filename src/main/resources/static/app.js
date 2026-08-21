@@ -366,13 +366,13 @@ async function loadStats() {
     const response = await fetch("/api/stats");
     const stats = await response.json();
 
-    document.getElementById("applied").textContent = stats.applied;
+    document.getElementById("applications").textContent = String(stats.total - stats.watching);
     document.getElementById("interviews").textContent = stats.interviewing;
     document.getElementById("offers").textContent = stats.offers;
     document.getElementById("watching").textContent = stats.watching;
 
-    document.getElementById("appliedThisWeek").textContent =
-        `+${stats.appliedThisWeek} this week`;
+    document.getElementById("applicationsThisWeek").textContent =
+        `+${stats.applicationsThisWeek} this week`;
 
     document.getElementById("interviewingThisWeek").textContent =
         `+${stats.interviewingThisWeek} this week`;
@@ -383,8 +383,10 @@ async function loadStats() {
     document.getElementById("watchingThisWeek").textContent =
         `+${stats.watchingThisWeek} this week`;
 
+    const activityTotal = stats.total - stats.watching;
+
     document.getElementById("activityTotal").textContent =
-        stats.total;
+        activityTotal;
 
     document.getElementById("activityApplied").textContent =
         stats.applied;
@@ -395,11 +397,52 @@ async function loadStats() {
     document.getElementById("activityOffers").textContent =
         stats.offers;
 
-    document.getElementById("activityWatching").textContent =
-        stats.watching;
-
     document.getElementById("activityRejected").textContent =
         stats.rejected;
+
+    document.getElementById("activityPhoneScreen").textContent =
+        stats.phoneScreen;
+
+    document.getElementById("activityWithdrawn").textContent =
+        stats.withdrawn;
+
+    const styles = getComputedStyle(document.documentElement);
+
+    const activityData = [
+        { count: stats.applied, color: styles.getPropertyValue("--applied-soft").trim() },
+        { count: stats.phoneScreen, color: styles.getPropertyValue("--phone-screen-soft").trim() },
+        { count: stats.interviewing, color: styles.getPropertyValue("--interview-soft").trim() },
+        { count: stats.offers, color: styles.getPropertyValue("--offer-soft").trim() },
+        { count: stats.rejected, color: styles.getPropertyValue("--rejected-soft").trim() },
+        { count: stats.withdrawn, color: styles.getPropertyValue("--withdrawn-soft").trim() }
+    ];
+
+
+    const total = stats.total;
+    const donut = document.getElementById("activityDonut");
+
+    if (total === 0) {
+        donut.style.background = "#e8dfd1";
+    } else {
+        let currentPercent = 0;
+        const segments = [];
+
+        activityData.forEach(item => {
+            if (item.count === 0) return;
+
+            const startPercent = currentPercent;
+            const percentage = (item.count / total) * 100;
+
+            currentPercent += percentage;
+
+            segments.push(
+                `${item.color} ${startPercent}% ${currentPercent}%`
+            );
+        });
+
+        donut.style.background =
+            `conic-gradient(${segments.join(", ")})`;
+    }
 }
 
 // ----------------------------------------

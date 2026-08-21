@@ -23,4 +23,10 @@ public interface ApplicationRepository
             LocalDate start,
             LocalDate end
     );
+
+    long countByDateAppliedBetweenAndStatusNot(
+            LocalDate start,
+            LocalDate end,
+            Application.Status status
+    );
 }

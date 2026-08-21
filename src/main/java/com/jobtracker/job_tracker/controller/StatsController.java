@@ -32,6 +32,7 @@ public class StatsController {
         LocalDateTime endOfWeek = startOfWeek.plusDays(7);
 
         stats.put("total", applicationRepository.count());
+
         stats.put("applied",
                 applicationRepository.countByStatus(
                         Application.Status.APPLIED));
@@ -56,10 +57,11 @@ public class StatsController {
                 applicationRepository.countByStatus(
                         Application.Status.WATCHING));
 
-        stats.put("appliedThisWeek",
-                applicationRepository.countByDateAppliedBetween(
+        stats.put("applicationsThisWeek",
+                applicationRepository.countByDateAppliedBetweenAndStatusNot(
                         startOfWeek.toLocalDate(),
-                        endOfWeek.minusDays(1).toLocalDate()
+                        endOfWeek.minusDays(1).toLocalDate(),
+                        Application.Status.WATCHING
                 ));
 
         stats.put("interviewingThisWeek",
@@ -79,6 +81,10 @@ public class StatsController {
                         Application.Status.WATCHING,
                         startOfWeek,
                         endOfWeek));
+
+        stats.put("withdrawn",
+                applicationRepository.countByStatus(
+                        Application.Status.WITHDRAWN));
 
         return stats;
     }
