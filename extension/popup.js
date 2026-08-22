@@ -102,7 +102,7 @@ async function autofillJobInfo() {
             }
         }
     }
-    
+
     if (
         jobData.type === "confirmation" ||
         jobData.type === "alreadyApplied"
@@ -136,6 +136,7 @@ async function saveApplication() {
         return;
     }
 
+    // Build application object
     const application = {
         company: {
             name: companyName
@@ -146,13 +147,60 @@ async function saveApplication() {
     };
 
     try {
-        const response = await fetch("http://localhost:8080/api/applications", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(application)
-        });
+        // Check whether this job is already in the tracker
+        const existingResponse = await fetch(
+            "http://localhost:8080/api/applications"
+        );
+
+        const existingApplications = await existingResponse.json();
+
+        const existingApplication = existingApplications.find(application =>
+            application.companyName?.trim().toLowerCase() === companyName.toLowerCase() &&
+            application.jobTitle?.trim().toLowerCase() === jobTitle.toLowerCase()
+        );
+
+        console.log("Existing application:", existingApplication);
+
+        // If it already exists, update it
+        if (existingApplication) {
+            const response = await fetch(
+                `http://localhost:8080/api/applications/${existingApplication.id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(application)
+                }
+            );
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Backend response:", errorText);
+                throw new Error("Failed to update application");
+            }
+
+            console.log("Updated existing application");
+
+            message.textContent = "Updated!";
+
+            document.getElementById("companyInput").value = "";
+            document.getElementById("jobTitleInput").value = "";
+
+            return;
+        }
+
+        // Otherwise create a new application
+        const response = await fetch(
+            "http://localhost:8080/api/applications",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(application)
+            }
+        );
 
         if (!response.ok) {
             const errorText = await response.text();
