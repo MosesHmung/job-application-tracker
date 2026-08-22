@@ -31,6 +31,13 @@ public class StatsController {
 
         LocalDateTime endOfWeek = startOfWeek.plusDays(7);
 
+        LocalDateTime startOfMonth = now
+                .withDayOfMonth(1)
+                .toLocalDate()
+                .atStartOfDay();
+
+        LocalDateTime endOfMonth = startOfMonth.plusMonths(1);
+
         stats.put("total", applicationRepository.count());
 
         stats.put("applied",
@@ -64,17 +71,17 @@ public class StatsController {
                         Application.Status.WATCHING
                 ));
 
-        stats.put("interviewingThisWeek",
+        stats.put("interviewingThisMonth",
                 applicationRepository.countByStatusAndStatusUpdatedAtBetween(
                         Application.Status.INTERVIEWING,
-                        startOfWeek,
-                        endOfWeek));
+                        startOfMonth,
+                        endOfMonth));
 
-        stats.put("offersThisWeek",
+        stats.put("offersThisMonth",
                 applicationRepository.countByStatusAndStatusUpdatedAtBetween(
                         Application.Status.OFFER,
-                        startOfWeek,
-                        endOfWeek));
+                        startOfMonth,
+                        endOfMonth));
 
         stats.put("watchingThisWeek",
                 applicationRepository.countByStatusAndStatusUpdatedAtBetween(
