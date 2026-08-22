@@ -376,11 +376,11 @@ async function loadStats() {
     document.getElementById("applicationsThisWeek").textContent =
         `+${stats.applicationsThisWeek} this week`;
 
-    document.getElementById("interviewingThisWeek").textContent =
-        `+${stats.interviewingThisWeek} this week`;
+    document.getElementById("interviewingThisMonth").textContent =
+        `+${stats.interviewingThisMonth} this month`;
 
-    document.getElementById("offersThisWeek").textContent =
-        `+${stats.offersThisWeek} this week`;
+    document.getElementById("offersThisMonth").textContent =
+        `+${stats.offersThisMonth} this month`;
 
     document.getElementById("watchingThisWeek").textContent =
         `+${stats.watchingThisWeek} this week`;
